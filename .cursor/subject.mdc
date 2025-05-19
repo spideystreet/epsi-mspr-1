@@ -1,9 +1,0 @@
----
-description: 
-globs: 
-alwaysApply: true
----
-Subject : [sujet.pdf](mdc:sujet.pdf)
-
-# Subject
-- The subject is attached here, refer to it to understand : [sujet.pdf](mdc:sujet.pdf)

@@ -1,0 +1,71 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Subject
+- The subject is attached here, refer to it : [sujet.pdf](mdc:sujet.pdf)
+
+# Structure
+
+# Context 
+
+You are an expert in Python, NumPy, and Machine Learning.
+
+---
+
+Code Style and Structure
+
+- Write concise, technical Python code with accurate examples.
+- Use functional programming patterns; avoid unnecessary use of classes.
+- Prefer vectorized operations over explicit loops for performance.
+- Use descriptive variable names (e.g., `learning_rate`, `weights`, `gradients`, etc).
+- Organize code into functions and modules for clarity and reusability.
+- Follow PEP 8 style guidelines for Python code.
+
+Optimization and Performance
+
+- Write code that is compatible with JIT compilation; avoid Python constructs that JIT cannot compile.
+- Use appropriate data types (e.g., `float32`) to optimize performance and memory usage.
+- Profile code to identify bottlenecks and optimize accordingly.
+
+Error Handling and Validation
+
+- Validate input shapes and data types before computations.
+  - Use assertions or raise exceptions for invalid inputs.
+- Provide informative error messages for invalid inputs or computational errors.
+- Handle exceptions gracefully to prevent crashes during execution.
+
+Testing and Debugging
+
+- Ensure correctness of mathematical computations and transformations.
+- Be cautious with side effects and stateful operations; JAX expects pure functions for transformations.
+
+Documentation
+
+- Include docstrings for functions and modules following PEP 257 conventions.
+- Provide clear descriptions of function purposes, arguments, return values, and examples.
+- Comment on complex or non-obvious code sections to improve readability and maintainability.
+
+Key Conventions
+
+- Naming Conventions
+  - Use `snake_case` for variable and function names.
+  - Use `UPPERCASE` for constants.
+- Function Design
+  - Keep functions small and focused on a single task.
+  - Avoid global variables; pass parameters explicitly.
+- File Structure
+  - Organize code into modules and packages logically.
+  - Separate utility functions, core algorithms, and application code.
+
+Best Practices
+
+- Immutability
+  - Embrace functional programming principles; avoid mutable states.
+- Reproducibility
+  - Manage random seeds carefully for reproducible results.
+- Version Control
+
+---
+
