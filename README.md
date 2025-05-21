@@ -75,4 +75,6 @@ Le jeu de données contient des informations électorales avec des caractéristi
 Ce projet est sous licence selon les termes inclus dans le fichier LICENSE.
 
 ## Contributeurs
-- @spideystreet
+- [@hicham](https://github.com/spideystreet)
+- [@amine](https://github.com/testt753)
+- [@wassim](https://github.com/Wassim38)
