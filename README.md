@@ -1,80 +1,83 @@
-# Prédicteur de Résultats Électoraux
+# 🗳️ Prédicteur de Résultats Électoraux
 
-## Aperçu
-Ce projet vise à prédire les résultats électoraux en utilisant des techniques d'apprentissage automatique. Il analyse les données électorales historiques pour identifier des modèles et prédire les vainqueurs dans les circonscriptions électorales.
+## ✨ Aperçu
+Bienvenue dans notre projet de prédiction électorale ! Nous utilisons l'intelligence artificielle pour anticiper les résultats des élections en analysant les données historiques. Notre objectif ? Identifier des tendances et prédire avec précision les vainqueurs dans différentes circonscriptions.
 
-## Structure du Projet
-- `data/` : Contient les jeux de données électorales
-  - `elections_prepared.csv` : Données électorales nettoyées et prétraitées
-- `notebooks/` : Notebooks Jupyter pour l'exploration des données et le développement de modèles
-  - `model_training.ipynb` : Développement et évaluation des modèles d'apprentissage automatique
-- `models/` : Modèles entraînés sauvegardés
+## 🔍 Fonctionnalités
+- 📊 Exploration interactive des données et visualisation des tendances électorales
+- ⚙️ Ingénierie des caractéristiques à partir de données démographiques et historiques de vote
+- 🤖 Modèles d'IA pour prédire les résultats électoraux
+- 📈 Métriques d'évaluation de performance claires et précises
+
+## 📂 Structure du Projet
+- `data/` : Jeux de données électorales
+  - `elections_prepared.csv` : Données nettoyées prêtes à l'emploi
+- `notebooks/` : Notebooks Jupyter pour l'exploration et le développement
+  - `model_training.ipynb` : Développement et évaluation des modèles
+- `models/` : Sauvegarde des modèles entraînés
 - `src/` : Code source de l'application
-- `venv/` : Environnement virtuel (non suivi dans git)
+- `venv/` : Environnement virtuel (non inclus dans git)
 
-## Fonctionnalités
-- Exploration des données et visualisation des tendances électorales
-- Ingénierie des caractéristiques à partir de données démographiques et historiques de vote
-- Modèles d'apprentissage automatique pour prédire les résultats électoraux
-- Métriques d'évaluation de performance
+## 🧠 Modèles
+Notre projet explore plusieurs algorithmes d'IA :
+- 🌲 Random Forest Classifier (Forêts aléatoires)
+- 🚀 Gradient Boosting Classifier (Boosting par gradient)
+- 📊 Logistic Regression (Régression logistique)
+- 🔄 Support Vector Machines (Machines à vecteurs de support)
+- 👥 K-Nearest Neighbors (K plus proches voisins)
+- 🌿 Decision Trees (Arbres de décision)
 
-## Installation
+## 📊 Données
+Notre jeu de données comprend :
+- Code et nom du département
+- Nombre d'électeurs inscrits
+- Taux de participation électorale
+- Répartition des votes par parti politique
+- Historique des vainqueurs
+
+## 🚀 Installation
 
 ### Prérequis
 - Python 3.13+
 - pip
 
-### Configuration
-1. Cloner ce dépôt :
+### C'est parti !
+1. Clonez ce dépôt :
    ```bash
    git clone [repository-url]
    ```
 
-2. Naviguer vers le répertoire du projet :
+2. Accédez au projet :
    ```bash
    cd election-result-predictor
    ```
 
-3. Créer et activer un environnement virtuel :
+3. Créez votre environnement :
    ```bash
    python -m venv venv
    source venv/bin/activate  # Sous Windows : venv\Scripts\activate
    ```
 
-4. Installer les dépendances :
+4. Installez tout ce qu'il faut :
    ```bash
    pip install -r requirements.txt
    ```
 
-## Utilisation
-1. Assurez-vous que votre environnement est correctement configuré
-2. Ouvrez et exécutez les notebooks Jupyter :
+## 🎮 Utilisation
+1. Vérifiez que votre environnement est bien configuré
+2. Lancez Jupyter Notebook :
    ```bash
    jupyter notebook
    ```
-3. Naviguez vers le répertoire `notebooks` pour commencer à explorer les données et les modèles
+3. Explorez les notebooks dans le dossier `notebooks` et commencez votre analyse !
 
-## Modèles
-Le projet explore plusieurs algorithmes d'apprentissage automatique, notamment :
-- Random Forest Classifier (Forêts aléatoires)
-- Gradient Boosting Classifier (Boosting par gradient)
-- Logistic Regression (Régression logistique)
-- Support Vector Machines (Machines à vecteurs de support)
-- K-Nearest Neighbors (K plus proches voisins)
-- Decision Trees (Arbres de décision)
+## 📄 Licence
+Ce projet est sous licence selon les termes du fichier LICENSE.
 
-## Données
-Le jeu de données contient des informations électorales avec des caractéristiques telles que :
-- Code et nom du département
-- Nombre d'électeurs inscrits
-- Participation électorale
-- Répartition des votes entre différents partis politiques
-- Vainqueurs historiques
-
-## Licence
-Ce projet est sous licence selon les termes inclus dans le fichier LICENSE.
-
-## Contributeurs
+## 👥 L'équipe
 - [@hicham](https://github.com/spideystreet)
 - [@amine](https://github.com/testt753)
 - [@wassim](https://github.com/Wassim38)
+
+## 💬 Feedback
+Vous avez des suggestions ou des questions ? N'hésitez pas à ouvrir une issue ou à nous contacter directement !
