@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Cursor
+.cursorrules
+.cursor
+
 # C extensions
 *.so
 
