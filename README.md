@@ -10,13 +10,26 @@ Bienvenue dans notre projet de prédiction électorale ! Nous utilisons l'intell
 - 📈 Métriques d'évaluation de performance claires et précises
 
 ## 📂 Structure du Projet
-- `data/` : Jeux de données électorales
-  - `elections_prepared.csv` : Données nettoyées prêtes à l'emploi
+- `data/` : Jeux de données électorales et socio-économiques
+  - `2017_2024_CHOMAGE_prepared.csv` : Données sur le chômage (2017-2024)
+  - `2017_2024_PAUVRETE_prepared.csv` : Données sur la pauvreté (2017-2024)
+  - `2017_2024_ELECTIONS_prepared.csv` : Données électorales consolidées (2017-2024)
+  - `2017_2024_CRIMINALITE_prepared.csv` : Données sur la criminalité (2017-2024)
+  - `2017_2024_IMMIGRATION_prepared.csv` : Données sur l'immigration (2017-2024)
 - `notebooks/` : Notebooks Jupyter pour l'exploration et le développement
   - `model_training.ipynb` : Développement et évaluation des modèles
 - `models/` : Sauvegarde des modèles entraînés
 - `src/` : Code source de l'application
 - `venv/` : Environnement virtuel (non inclus dans git)
+
+## ⚙️ Prétraitement des Données
+Voici un aperçu de nos flux de prétraitement des données :
+
+### Flux de données électorales
+![Flux de données électorales](./assets/images/dataprocess_ELECTIONS.png)
+
+### Flux de données socio-économiques et autres
+![Flux de données socio-économiques](./assets/images/dataprocess_OTHERS.png)
 
 ## 🧠 Modèles
 Notre projet explore plusieurs algorithmes d'IA :
@@ -29,11 +42,12 @@ Notre projet explore plusieurs algorithmes d'IA :
 
 ## 📊 Données
 Notre jeu de données comprend :
+- Données électorales historiques (résultats, participation, inscrits par département)
+- Indicateurs socio-économiques (chômage, pauvreté)
+- Données démographiques et sociales (criminalité, immigration)
 - Code et nom du département
-- Nombre d'électeurs inscrits
-- Taux de participation électorale
 - Répartition des votes par parti politique
-- Historique des vainqueurs
+- Historique des vainqueurs potentiels (basé sur les résultats)
 
 ## 🚀 Installation
 
