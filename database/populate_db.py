@@ -107,11 +107,16 @@ def execute_schema(conn, schema_file):
 def load_csv_to_table(conn, table_name, csv_file_path, columns_map):
     """ Load data from CSV file into the specified table """
     try:
-        df = pd.read_csv(csv_file_path)
+        # Ensure DEPARTMENT_CODE is always read as string
+        df = pd.read_csv(csv_file_path, dtype={"DEPARTMENT_CODE": str})
         if columns_map:
             # Before renaming, store the original CSV columns that are keys in the map
             csv_cols_to_rename = {k: v for k, v in columns_map.items() if k in df.columns}
             df.rename(columns=csv_cols_to_rename, inplace=True)
+        
+        # Force DEPARTMENT_CODE to always be two digits
+        if "DEPARTMENT_CODE" in df.columns:
+            df["DEPARTMENT_CODE"] = df["DEPARTMENT_CODE"].apply(lambda x: str(x).zfill(2))
         
         # Select only the columns that are now named as the SQL columns (values from columns_map)
         # and actually exist in the DataFrame after renaming.
