@@ -20,7 +20,7 @@ TABLE_CONFIG = {
             "ANNEE": "YEAR",
             "DEPARTEMENT_CODE": "DEPARTMENT_CODE",
             "DEPARTEMENT": "DEPARTMENT",
-            "TAUX_CHOMAGE": "UNEMPLOYMENT_RATE", 
+            "TX_CHOMAGE": "UNEMPLOYMENT_RATE", 
         },
     },
     "CRIME_DATA": {  # Uppercase table name
@@ -67,7 +67,7 @@ TABLE_CONFIG = {
             "ANNEE": "YEAR",
             "DEPARTEMENT_CODE": "DEPARTMENT_CODE",
             "DEPARTEMENT": "DEPARTMENT",
-            "TAUX_IMMIGRATION": "IMMIGRATION_RATE", 
+            "TX_IMMIGRATION": "IMMIGRATION_RATE", 
         },
     },
     "POVERTY_DATA": {  # Uppercase table name
@@ -76,7 +76,7 @@ TABLE_CONFIG = {
             "ANNEE": "YEAR",
             "DEPARTEMENT_CODE": "DEPARTMENT_CODE",
             "DEPARTEMENT": "DEPARTMENT",
-            "TAUX_PAUVRETE": "POVERTY_RATE", 
+            "TX_PAUVRETE": "POVERTY_RATE", 
         },
     },
 }
