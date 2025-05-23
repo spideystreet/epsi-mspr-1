@@ -29,7 +29,7 @@ TABLE_CONFIG = {
             "ANNEE": "YEAR",
             "DEPARTEMENT_CODE": "DEPARTMENT_CODE",
             "DEPARTEMENT": "DEPARTMENT",
-            "NB_VICTIMES": "NUMBER_OF_VICTIMS", 
+            "NB_DE_VICTIMES": "NUMBER_OF_VICTIMS", 
         },
     },
     "ELECTION_DATA": {  # Uppercase table name
@@ -38,7 +38,7 @@ TABLE_CONFIG = {
             "ANNEE": "YEAR",
             "DEPARTEMENT_CODE": "DEPARTMENT_CODE",
             "DEPARTEMENT": "DEPARTMENT",
-            "WINNER": "WINNER",
+            "GAGNANT": "WINNER",
             "NB_INSCRITS": "REGISTERED_VOTERS",
             "NB_VOTANTS": "VOTERS",
             "PARTI_1": "PARTY_1",
