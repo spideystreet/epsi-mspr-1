@@ -11,3 +11,8 @@ Nous avons résolu ce problème en implémentant une **division temporelle stric
 - **Test :** Il est évalué **uniquement** sur les données de l'année 2024, qui sont complètement nouvelles pour lui.
 
 Cette méthode simule correctement une prédiction sur l'avenir. Le score d'exactitude obtenu (autour de 48%) est plus faible, mais il est **honnête, fiable et représentatif** de la réelle capacité du modèle à généraliser sur des données inconnues.
+
+### Hypothèse pour la Prédiction de 2027
+Le modèle en lui-même n'a pas conscience du temps (la colonne `YEAR` a été volontairement retirée pour éviter un apprentissage de tendances temporelles simplistes). Il apprend uniquement la corrélation entre des caractéristiques socio-économiques et un résultat d'élection.
+
+Pour prédire le résultat de 2027, nous utilisons les données de 2024 (nos données les plus récentes et complètes) comme un "proxy" ou une estimation. L'hypothèse sous-jacente est que la démographie ne subira pas de bouleversement majeur en 3 ans. Le modèle simule donc le résultat d'une élection de 2027 qui se déroulerait dans les conditions socio-économiques de 2024.

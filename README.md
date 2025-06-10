@@ -31,6 +31,11 @@ Voici un aperçu de nos flux de prétraitement des données :
 ### Flux de données socio-économiques et autres
 ![Flux de données socio-économiques](./assets/images/dataprocess_OTHERS.png)
 
+### 🔮 Hypothèse de Prédiction pour 2027
+Notre modèle ne prédit pas l'avenir de manière magique. Pour estimer le résultat de 2027, nous faisons une hypothèse de travail simple mais puissante : nous supposons que les caractéristiques démographiques et socio-économiques des départements en 2027 seront similaires à celles que nous avons observées le plus récemment, c'est-à-dire en 2024.
+
+Le modèle répond donc à la question : **"Si l'élection de 2027 avait lieu avec la même tendance démographique qu'en 2024, quel parti l'emporterait ?"** C'est une simulation basée sur les tendances apprises.
+
 ## 🧠 Modèles
 Notre projet explore plusieurs algorithmes d'IA :
 - 🌲 Random Forest Classifier (Forêts aléatoires)
