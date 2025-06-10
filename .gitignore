@@ -3,12 +3,18 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# notes
+./project/notes.md
+
 # Cursor
 .cursorrules
 .cursor
 
 # C extensions
 *.so
+
+# TODO
+TODO.md
 
 # Distribution / packaging
 .Python
