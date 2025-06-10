@@ -1,99 +1,82 @@
 # 🗳️ Prédicteur de Résultats Électoraux
 
 ## ✨ Aperçu
-Bienvenue dans notre projet de prédiction électorale ! Nous utilisons l'intelligence artificielle pour anticiper les résultats des élections en analysant les données historiques. Notre objectif ? Identifier des tendances et prédire avec précision les vainqueurs dans différentes circonscriptions.
+Ce projet a pour but de prédire les résultats des élections françaises par département en utilisant des techniques de machine learning. L'objectif n'est pas seulement de prédire, mais de construire un **pipeline robuste et méthodologiquement correct** qui évite les pièges courants de l'analyse de données temporelles.
 
-## 🔍 Fonctionnalités
-- 📊 Exploration interactive des données et visualisation des tendances électorales
-- ⚙️ Ingénierie des caractéristiques à partir de données démographiques et historiques de vote
-- 🤖 Modèles d'IA pour prédire les résultats électoraux
-- 📈 Métriques d'évaluation de performance claires et précises
+##  핵심 La Démarche Clé du Projet
+Le défi principal de ce projet est de prédire un événement futur (une élection) en se basant sur des données passées. Pour cela, notre démarche repose sur trois piliers :
 
-## 📂 Structure du Projet
-- `data/` : Jeux de données électorales et socio-économiques
-  - `2017_2024_CHOMAGE_prepared.csv` : Données sur le chômage (2017-2024)
-  - `2017_2024_PAUVRETE_prepared.csv` : Données sur la pauvreté (2017-2024)
-  - `2017_2024_ELECTIONS_prepared.csv` : Données électorales consolidées (2017-2024)
-  - `2017_2024_CRIMINALITE_prepared.csv` : Données sur la criminalité (2017-2024)
-  - `2017_2024_IMMIGRATION_prepared.csv` : Données sur l'immigration (2017-2024)
-- `notebooks/` : Notebooks Jupyter pour l'exploration et le développement
-  - `model_training.ipynb` : Développement et évaluation des modèles
-- `models/` : Sauvegarde des modèles entraînés
-- `src/` : Code source de l'application
-- `venv/` : Environnement virtuel (non inclus dans git)
+1.  **Division Temporelle Stricte :** Pour éviter toute "fuite de données" du futur vers le passé, nous entraînons nos modèles exclusivement sur les données **antérieures à 2024** et nous les évaluons sur les données de **2024**.
+2.  **Score d'Exactitude Honnête :** Le score de performance de notre modèle (~48%) peut sembler modeste, mais il est **réaliste**. Il représente la véritable capacité du modèle à prédire une année qu'il n'a jamais vue, ce qui est bien plus fiable qu'un score artificiellement élevé.
+3.  **Simulation pour 2027 :** Nous ne prétendons pas "prédire l'avenir". Nous utilisons nos données les plus récentes (2024) comme une estimation des conditions socio-économiques de 2027, et nous demandons au modèle : *"selon les tendances apprises, qui gagnerait si une élection avait lieu dans ces conditions ?"*.
 
-## ⚙️ Prétraitement des Données
-Voici un aperçu de nos flux de prétraitement des données :
+## 🚀 Notre Pipeline de Travail
+Le projet est structuré en 3 notebooks séquentiels qui forment un pipeline complet, de la donnée brute au résultat final.
 
-### Flux de données électorales
-![Flux de données électorales](./assets/images/dataprocess_ELECTIONS.png)
+1.  `notebooks/data_preprocessing.ipynb`
+    *   **Rôle :** Préparer et nettoyer les données.
+    *   **Actions :** Agréger les données brutes, appliquer la division temporelle (train < 2024, test = 2024), et sauvegarder les jeux de données traités ainsi que les outils de transformation (`preprocessor`).
 
-### Flux de données socio-économiques et autres
-![Flux de données socio-économiques](./assets/images/dataprocess_OTHERS.png)
+2.  `notebooks/model_training.ipynb`
+    *   **Rôle :** Entraîner et sélectionner le meilleur modèle.
+    *   **Actions :** Tester plusieurs algorithmes (Random Forest, etc.), les évaluer sur le jeu de test de 2024, et **sauvegarder automatiquement le modèle le plus performant**.
 
-### 🔮 Hypothèse de Prédiction pour 2027
-Notre modèle ne prédit pas l'avenir de manière magique. Pour estimer le résultat de 2027, nous faisons une hypothèse de travail simple mais puissante : nous supposons que les caractéristiques démographiques et socio-économiques des départements en 2027 seront similaires à celles que nous avons observées le plus récemment, c'est-à-dire en 2024.
+3.  `notebooks/generate_predictions.ipynb`
+    *   **Rôle :** Générer les prédictions finales et préparer les données pour la BI.
+    *   **Actions :** Charger le meilleur modèle, prédire les gagnants de "2027", et créer une table finale `ELECTION_RESULTS_FOR_BI` dans la base de données, combinant tous les résultats historiques et futurs pour une analyse facile.
 
-Le modèle répond donc à la question : **"Si l'élection de 2027 avait lieu avec la même tendance démographique qu'en 2024, quel parti l'emporterait ?"** C'est une simulation basée sur les tendances apprises.
+## 📂 Structure des Fichiers
+```
+.
+├── data/                 # Jeux de données bruts (.csv)
+├── database/
+│   ├── ELECTIONS.db        # Base de données SQLite centrale
+│   ├── preprocessor_X.joblib # Outil de transformation sauvegardé
+│   └── label_encoder_y.joblib  # Encodeur de la cible sauvegardé
+├── models/
+│   └── random_forest_predictor.joblib # Meilleur modèle de prédiction
+├── notebooks/
+│   ├── data_preprocessing.ipynb
+│   ├── model_training.ipynb
+│   └── generate_predictions.ipynb
+├── project/
+│   └── notes.md            # Notes détaillées pour le rapport
+├── README.md               # Ce fichier
+└── requirements.txt        # Dépendances du projet
+```
 
-## 🧠 Modèles
-Notre projet explore plusieurs algorithmes d'IA :
-- 🌲 Random Forest Classifier (Forêts aléatoires)
-- 🚀 Gradient Boosting Classifier (Boosting par gradient)
-- 📊 Logistic Regression (Régression logistique)
-- 🔄 Support Vector Machines (Machines à vecteurs de support)
-- 👥 K-Nearest Neighbors (K plus proches voisins)
-- 🌿 Decision Trees (Arbres de décision)
-
-## 📊 Données
+## 📊 Données Utilisées
 Notre jeu de données comprend :
-- Données électorales historiques (résultats, participation, inscrits par département)
-- Indicateurs socio-économiques (chômage, pauvreté)
-- Données démographiques et sociales (criminalité, immigration)
-- Code et nom du département
-- Répartition des votes par parti politique
-- Historique des vainqueurs potentiels (basé sur les résultats)
+- Résultats électoraux historiques (participation, inscrits, votes par parti).
+- Indicateurs socio-économiques (chômage, pauvreté).
+- Données sociales (criminalité, immigration).
 
-## 🚀 Installation
+## 🛠️ Installation et Utilisation
 
 ### Prérequis
-- Python 3.13+
+- Python 3.10+
 - pip
 
-### C'est parti !
-1. Clonez ce dépôt :
-   ```bash
-   git clone [repository-url]
-   ```
-
-2. Accédez au projet :
-   ```bash
-   cd election-result-predictor
-   ```
-
-3. Créez votre environnement :
+### Lancement
+1. Clonez le dépôt et naviguez dans le dossier.
+2. Créez et activez un environnement virtuel :
    ```bash
    python -m venv venv
-   source venv/bin/activate  # Sous Windows : venv\Scripts\activate
+   source venv/bin/activate
    ```
-
-4. Installez tout ce qu'il faut :
+3. Installez les dépendances :
    ```bash
    pip install -r requirements.txt
    ```
-
-## 🎮 Utilisation
-1. Vérifiez que votre environnement est bien configuré
-2. Lancez Jupyter Notebook :
+4. Lancez Jupyter et suivez les notebooks dans l'ordre du pipeline :
    ```bash
    jupyter notebook
    ```
-3. Explorez les notebooks dans le dossier `notebooks` et commencez votre analyse !
 
 ## 📄 Licence
 Ce projet est sous licence selon les termes du fichier LICENSE.
 
-## 👥 L'équipe
+## 👥 L'Équipe
 - [@hicham](https://github.com/spideystreet)
 - [@amine](https://github.com/testt753)
 - [@wassim](https://github.com/Wassim38)
