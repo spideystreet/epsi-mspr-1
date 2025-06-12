@@ -53,3 +53,9 @@
   - **Enrichir les données :** Intégrer des données plus granulaires (par circonscription), des données sur les sondages d'opinion, ou des indicateurs de sentiment sur les réseaux sociaux.
   - **Explorer d'autres modèles :** Tester des modèles plus complexes comme XGBoost ou des approches de deep learning.
   - **Projections démographiques :** Au lieu d'utiliser les données de 2024 comme proxy, rechercher et intégrer de véritables projections démographiques de l'INSEE pour 2027 afin d'améliorer la pertinence de la simulation.
+
+  - sql alchemy utilisation pour écrire les datas dans postgreSQL au lieu de sqlite de base (pour gérer plus solidement quoi, genre auth etc)
+
+  - on a pas pu faire avec Amazon S3 ou AWS Databricks car il faut des licences pour récupérer les datas depuis le cloud et brancher à un outil de dataviz, mais on aurait fait avec si on avait pu
+
+  - on a un .env.example 
