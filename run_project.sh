@@ -15,12 +15,12 @@ done
 # Execute the Jupyter notebooks in sequence.
 # The output will be saved to new files with the '.executed.ipynb' suffix.
 echo "Running data preprocessing notebook..."
-jupyter nbconvert --to notebook --execute data_preprocessing.ipynb --output notebooks/data_preprocessing.executed.ipynb
+jupyter nbconvert --to notebook --execute notebooks/data_preprocessing.ipynb --output data_preprocessing.executed.ipynb
 
 echo "Running model training notebook..."
-jupyter nbconvert --to notebook --execute model_training.ipynb --output notebooks/model_training.executed.ipynb
+jupyter nbconvert --to notebook --execute notebooks/model_training.ipynb --output model_training.executed.ipynb
 
 echo "Running prediction notebook..."
-jupyter nbconvert --to notebook --execute prediction.ipynb --output notebooks/prediction.executed.ipynb
+jupyter nbconvert --to notebook --execute notebooks/prediction.ipynb --output prediction.executed.ipynb
 
 echo "Project execution finished successfully. Executed notebooks are available." 

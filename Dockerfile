@@ -9,6 +9,7 @@ ENV PYTHONUNBUFFERED 1
 # Install system dependencies. postgresql-client is needed for the `psql` command in `run_project.sh` to check DB connection.
 RUN apt-get update && apt-get install -y --no-install-recommends \
     postgresql-client \
+    dos2unix \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container.
@@ -16,17 +17,13 @@ WORKDIR /app
 
 # Copy the requirements file into the container.
 COPY requirements.txt .
-
-# Install Python dependencies from requirements.txt.
-# Using --no-cache-dir reduces the image size.
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application's code into the container.
 COPY . .
 
 # Make the run script executable. This script will be created in the next step.
-COPY run_project.sh .
-RUN chmod +x run_project.sh
-
+RUN dos2unix run_project.sh && \
+    chmod +x run_project.sh
 # The command to run when the container launches.
 CMD ["./run_project.sh"] 
