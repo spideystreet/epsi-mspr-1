@@ -83,3 +83,5 @@ Ce projet est sous licence selon les termes du fichier LICENSE.
 
 ## 💬 Feedback
 Vous avez des suggestions ou des questions ? N'hésitez pas à ouvrir une issue ou à nous contacter directement !
+
+- on a un .env.example 
