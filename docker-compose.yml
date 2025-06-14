@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    container_name: mspr_postgres_db
+    restart: always
+    env_file:
+      - .env
+    environment:
+      # These variables are read from the .env file and passed to the postgres container
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_DB=${PG_DBNAME}
+    ports:
+      # Exposes the database port to your local machine for easy access with a DB client
+      - "${PG_PORT}:5432"
+    volumes:
+      # Persists database data across container restarts
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: mspr_app
+    restart: on-failure
+    env_file:
+      - .env
+    environment:
+      # Override PG_HOST to use the service name 'db' which is the hostname inside the Docker network
+      - PG_HOST=db
+      # The port inside the Docker network is the default 5432
+      - PG_PORT=5432
+    depends_on:
+      - db
+    volumes:
+      # Mounts the current directory into the container to reflect code changes without rebuilding
+      - .:/app
+
+volumes:
+  pgdata:
+    # Defines the named volume for data persistence 
