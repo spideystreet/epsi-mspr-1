@@ -188,26 +188,32 @@ with col2:
     st.plotly_chart(fig_bar, use_container_width=True)
 
 # --- Section Évolution des Indicateurs ---
-st.header("📈 Évolution des indicateurs socio-économiques (2017-2024)")
-st.write("Les graphiques suivants montrent la moyenne nationale (non pondérée) pour chaque indicateur, calculée sur l'ensemble des départements.")
+st.header("📈 Évolution des indicateurs nationaux (2017-2024)")
+st.write("Les graphiques suivants montrent les tendances pour chaque indicateur à l'échelle de la France.")
 
 # Préparer les données - exclure 2027 car les indicateurs sont un proxy de 2024
 evolution_df = election_df[election_df['YEAR'] < 2027].copy()
 
 features_to_plot = {
-    'NUMBER_OF_VICTIMS': 'Nombre de victimes (moyenne par département)',
-    'IMMIGRATION_RATE': 'Taux d\'immigration (%)',
-    'POVERTY_RATE': 'Taux de pauvreté (%)',
-    'UNEMPLOYMENT_RATE': 'Taux de chômage (%)'
+    'NUMBER_OF_VICTIMS': 'Nombre total de victimes en France',
+    'IMMIGRATION_RATE': 'Taux d\'immigration national moyen (%)',
+    'POVERTY_RATE': 'Taux de pauvreté national moyen (%)',
+    'UNEMPLOYMENT_RATE': 'Taux de chômage national moyen (%)'
 }
 
-# Calculer la moyenne nationale pour chaque année
-evolution_avg = evolution_df.groupby('YEAR')[list(features_to_plot.keys())].mean().reset_index()
+# Agréger les données au niveau national
+# Somme pour le nombre de victimes, moyenne pour les taux
+evolution_agg = evolution_df.groupby('YEAR').agg({
+    'NUMBER_OF_VICTIMS': 'sum',
+    'IMMIGRATION_RATE': 'mean',
+    'POVERTY_RATE': 'mean',
+    'UNEMPLOYMENT_RATE': 'mean'
+}).reset_index()
 
 # Boucler sur chaque indicateur pour créer un graphique distinct
 for feature_col, feature_label in features_to_plot.items():
     fig = px.line(
-        evolution_avg,
+        evolution_agg,
         x='YEAR',
         y=feature_col,
         title=feature_label,
@@ -218,6 +224,7 @@ for feature_col, feature_label in features_to_plot.items():
     st.plotly_chart(fig, use_container_width=True)
 
 st.info(
+    "Pour le 'Nombre de victimes', le total national est affiché. Pour les taux, il s'agit de la moyenne nationale (non pondérée). "
     "Les données de 2027 ne sont pas affichées ici car les indicateurs socio-économiques pour cette année prédictive sont basés sur les chiffres de 2024."
 )
 
