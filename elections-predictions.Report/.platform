@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "elections-predictions"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "c2539d2b-5958-484c-9802-98959421ed4e"
+  }
+}

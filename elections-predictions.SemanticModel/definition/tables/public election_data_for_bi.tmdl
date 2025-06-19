@@ -1,0 +1,78 @@
+table 'public election_data_for_bi'
+	lineageTag: 0fe6f6d3-00d5-48e2-82e1-f0d23c89afab
+
+	column YEAR
+		dataType: int64
+		formatString: 0
+		lineageTag: a0343b9d-6bef-4f12-b94f-e96609262b18
+		summarizeBy: sum
+		sourceColumn: YEAR
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPARTMENT_CODE
+		dataType: string
+		lineageTag: 04cbb1fb-9b21-42ec-8d3d-87a45e6bbfd7
+		summarizeBy: none
+		sourceColumn: DEPARTMENT_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+	column WINNER
+		dataType: string
+		lineageTag: 79c1bbdd-ecc6-4bef-93a7-7063bec70ce2
+		summarizeBy: none
+		sourceColumn: WINNER
+
+		annotation SummarizationSetBy = Automatic
+
+	column NUMBER_OF_VICTIMS
+		dataType: int64
+		formatString: 0
+		lineageTag: 09cc8635-c24a-4b5d-9d27-ea35ce436cc0
+		summarizeBy: sum
+		sourceColumn: NUMBER_OF_VICTIMS
+
+		annotation SummarizationSetBy = Automatic
+
+	column IMMIGRATION_RATE
+		dataType: double
+		lineageTag: 63b26506-f0bf-44e6-8ded-85899a3243b4
+		summarizeBy: sum
+		sourceColumn: IMMIGRATION_RATE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column POVERTY_RATE
+		dataType: double
+		lineageTag: c98ce2ed-593b-4474-9dcf-e11353c0df52
+		summarizeBy: sum
+		sourceColumn: POVERTY_RATE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column UNEMPLOYMENT_RATE
+		dataType: double
+		lineageTag: ab6b66b8-a517-48dd-a40a-bfd1848a09cb
+		summarizeBy: sum
+		sourceColumn: UNEMPLOYMENT_RATE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'public election_data_for_bi' = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database("localhost", "ELECTIONS"),
+				    public_election_data_for_bi = Source{[Schema="public",Item="election_data_for_bi"]}[Data]
+				in
+				    public_election_data_for_bi
+
+	annotation PBI_ResultType = Table
+
