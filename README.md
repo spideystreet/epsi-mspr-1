@@ -1,112 +1,123 @@
-# 🗳️ Prédicteur de Résultats Électoraux & Tableau de Bord Interactif
+# 🗳️ Electoral Results Predictor & Interactive Dashboard
 
-## ✨ Aperçu
-Ce projet a pour but de prédire les résultats des élections françaises par département en utilisant des techniques de machine learning. L'objectif n'est pas seulement de prédire, mais de construire un **pipeline de données robuste et reproductible** qui alimente un **tableau de bord interactif** pour visualiser les résultats historiques et les prédictions futures.
+## ✨ Overview
+This project aims to predict the results of French elections by department using machine learning techniques. The goal is not only to predict but to build a **robust and reproducible data pipeline** that feeds an **interactive dashboard** for visualizing historical results and future predictions.
 
-## 🚀 Notre Pipeline de Travail
-Le projet est structuré en 3 notebooks séquentiels qui forment un pipeline complet et automatisé, de la donnée brute au résultat final.
+## 🚀 Our Workflow Pipeline
+The project is structured around three sequential Jupyter notebooks that form a complete and automated pipeline, from raw data to the final result.
 
 1.  `notebooks/data_preprocessing.ipynb`
-    *   **Rôle :** Préparer et nettoyer les données.
-    *   **Actions :** Agréger les données brutes, les charger dans une base de données PostgreSQL, appliquer la division temporelle (train < 2024, test = 2024), et sauvegarder les jeux de données traités ainsi que les outils de transformation (`preprocessor`).
+    *   **Role:** Prepares and cleans the data.
+    *   **Actions:**
+        *   Aggregates raw data from various CSV files.
+        *   Loads the data into a PostgreSQL database.
+        *   Performs a temporal split (train < 2024, test = 2024).
+        *   Saves the processed datasets and transformation tools (`preprocessor`, `label_encoder`).
 
 2.  `notebooks/model_training.ipynb`
-    *   **Rôle :** Entraîner et sélectionner le meilleur modèle.
-    *   **Actions :** Tester plusieurs algorithmes (Random Forest, etc.), les évaluer sur le jeu de test de 2024, et **sauvegarder automatiquement le modèle le plus performant**.
+    *   **Role:** Trains and selects the best model.
+    *   **Actions:**
+        *   Tests several algorithms (e.g., Random Forest).
+        *   Evaluates them on the 2024 test set.
+        *   **Automatically saves the best-performing model.**
 
 3.  `notebooks/prediction.ipynb`
-    *   **Rôle :** Générer les prédictions finales et préparer les données pour la BI.
-    *   **Actions :** Charger le meilleur modèle, prédire les gagnants de "2027", et créer une table finale `election_results_for_bi` dans la base de données, combinant tous les résultats historiques et futurs pour une analyse facile.
+    *   **Role:** Generates final predictions and prepares data for BI.
+    *   **Actions:**
+        *   Loads the best model.
+        *   Predicts the winners for "2027".
+        *   Creates a final table, `election_results_for_bi`, in the database, combining all historical and future results for easy analysis.
 
-## 📊 Visualisation avec le Tableau de Bord
-Une fois le pipeline de données exécuté, un tableau de bord Streamlit est disponible pour explorer les résultats. Il permet de :
--   Visualiser les partis gagnants par département sur une carte interactive de la France.
--   Filtrer les résultats par année, y compris les **prédictions pour 2027**.
--   Consulter des statistiques agrégées et les données détaillées pour chaque année.
+## 📊 Visualization with the Dashboard
+Once the data pipeline has been executed, a Streamlit dashboard is available to explore the results. It allows you to:
+-   Visualize the winning parties by department on an interactive map of France.
+-   Filter results by year, including **predictions for 2027**.
+-   View aggregated statistics and detailed data for each year.
 
-## 📂 Structure des Fichiers
+## 📂 File Structure
 ```
 .
-├── data/                 # Jeux de données bruts (.csv)
-├── database/
-│   ├── preprocessor_X.joblib # Outil de transformation sauvegardé
-│   └── label_encoder_y.joblib  # Encodeur de la cible sauvegardé
+├── assets/                 # Project assets (images, diagrams)
+├── data/                   # Raw datasets (.csv, .geojson)
+├── database/               # Saved processing artifacts
+│   ├── preprocessor_X.joblib # Saved data transformation tool
+│   └── label_encoder_y.joblib  # Saved target encoder
 ├── models/
-│   └── random_forest_predictor.joblib # Meilleur modèle de prédiction
+│   └── random_forest_predictor.joblib # Best saved prediction model
 ├── notebooks/
-│   ├── data_preprocessing.ipynb
-│   ├── model_training.ipynb
-│   └── prediction.ipynb
+│   ├── data_preprocessing.ipynb   # Notebook for data prep
+│   ├── model_training.ipynb     # Notebook for model training
+│   └── prediction.ipynb         # Notebook for generating predictions
 ├── streamlit/
-│   └── dashboard.py      # Code du tableau de bord interactif
-├── .env.example          # Fichier d'exemple pour les variables d'environnement
-├── .env                  # Fichier de configuration (ignoré par git)
-├── Dockerfile            # Définit l'environnement de l'application
-├── docker-compose.yml    # Orchestre les services Docker
-├── run_project.sh        # Script d'exécution du pipeline
-├── README.md               # Ce fichier
-└── requirements.txt        # Dépendances du projet
+│   └── dashboard.py      # Code for the interactive dashboard
+├── .env.example          # Example file for environment variables
+├── .env                  # Configuration file (ignored by git)
+├── .gitignore            # Files and directories ignored by git
+├── Dockerfile            # Defines the application's environment
+├── docker-compose.yml    # Orchestrates Docker services
+├── run_project.sh        # Execution script for the pipeline
+├── README.md             # This file
+└── requirements.txt      # Project dependencies
 ```
 
-## 📊 Données Utilisées
-Notre jeu de données comprend :
-- Résultats électoraux historiques (participation, inscrits, votes par parti).
-- Indicateurs socio-économiques (chômage, pauvreté).
-- Données sociales (criminalité, immigration).
+## 📊 Data Used
+Our dataset includes:
+- Historical electoral results (turnout, registered voters, votes per party).
+- Socio-economic indicators (unemployment, poverty).
+- Social data (crime, immigration).
 
-## 🐳 Installation et Lancement
+## 🐳 Installation and Launch
 
-### Prérequis
+### Prerequisites
 - [Docker](https://www.docker.com/get-started) & [Docker Compose](https://docs.docker.com/compose/install/)
-- [Python 3.9+](https://www.python.org/downloads/) sur votre machine locale (pour lancer le tableau de bord).
 
-### Étape 1 : Exécuter le Pipeline de Données
-Cette étape utilise Docker pour créer la base de données, traiter les données et entraîner le modèle.
-1.  **Clonez le dépôt** et naviguez dans le dossier.
-2.  **Configurez votre environnement :**
-    -   Créez un fichier `.env` en copiant le modèle ` .env.example`.
-    -   Remplissez les variables d'environnement (`PG_USER`, `PG_PASSWORD`, `PG_DBNAME`, `PG_PORT`) avec vos informations.
-3.  **Lancez le projet :**
-    -   Ouvrez un terminal à la racine du projet et exécutez la commande suivante :
+### Step 1: Run the Data Pipeline
+This step uses Docker to create the database, process the data, and train the model.
+1.  **Clone the repository** and navigate into the project folder.
+2.  **Configure your environment:**
+    -   Create a `.env` file by copying the `.env.example` template.
+    -   Fill in the environment variables (`PG_USER`, `PG_PASSWORD`, `PG_DBNAME`, `PG_PORT`).
+3.  **Launch the project:**
+    -   Open a terminal at the project root and run the following command:
       ```bash
       docker-compose up --build
       ```
-    -   Cette unique commande va construire et démarrer les conteneurs. Le script `run_project.sh` s'exécutera automatiquement pour peupler la base de données.
-    -   **Laissez ce terminal ouvert.**
+    -   This single command will build and start the containers. The `run_project.sh` script will automatically execute to run the entire data pipeline.
+    -   **Keep this terminal open.**
 
-### Étape 2 : Lancer le Tableau de Bord Interactif
-Une fois le pipeline de l'étape 1 terminé (vous verrez les logs de l'exécution des notebooks), vous pouvez lancer le tableau de bord.
-1.  **Installez les dépendances** (dans un nouveau terminal) :
-    -   Il est recommandé de créer un environnement virtuel Python.
+### Step 2: Launch the Interactive Dashboard
+Once the pipeline in Step 1 is complete (you will see the logs of the notebook executions), you can launch the dashboard.
+1.  **Install dependencies** (in a **new terminal**):
+    -   It is recommended to create a Python virtual environment.
       ```bash
-      python -m venv venv
-      source venv/bin/activate  # Sur macOS/Linux
-      # venv\Scripts\activate   # Sur Windows
+      python3 -m venv venv
+      source venv/bin/activate  # On macOS/Linux
+      # venv\Scripts\activate   # On Windows
       ```
-    -   Installez les librairies nécessaires :
+    -   Install the required libraries:
       ```bash
       pip install -r requirements.txt
       ```
-2.  **Lancez le tableau de bord :**
+2.  **Launch the dashboard:**
     ```bash
     streamlit run streamlit/dashboard.py
     ```
-    -   Le tableau de bord sera accessible dans votre navigateur à l'adresse indiquée (généralement `http://localhost:8501`).
+    -   The dashboard will be accessible in your browser at the address indicated (usually `http://localhost:8501`).
 
-### Arrêter les services
--   Pour arrêter le tableau de bord, appuyez sur `Ctrl + C` dans le terminal correspondant.
--   Pour arrêter la base de données, retournez dans le terminal de Docker et appuyez sur `Ctrl + C`, puis exécutez :
+### Stopping the Services
+-   To stop the dashboard, press `Ctrl + C` in its terminal.
+-   To stop the database and application containers, go back to the Docker terminal, press `Ctrl + C`, and then run:
       ```bash
       docker-compose down
       ```
 
-## 📄 Licence
-Ce projet est sous licence selon les termes du fichier LICENSE.
+## 📄 License
+This project is licensed under the terms of the LICENSE file.
 
-## 👥 L'Équipe
+## 👥 The Team
 - [@hicham](https://github.com/spideystreet)
 - [@amine](https://github.com/testt753)
 - [@wassim](https://github.com/Wassim38)
 
 ## 💬 Feedback
-Vous avez des suggestions ou des questions ? N'hésitez pas à ouvrir une issue ou à nous contacter directement ! 
+Have suggestions or questions? Feel free to open an issue or contact us directly! 
