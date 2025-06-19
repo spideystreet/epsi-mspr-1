@@ -94,7 +94,7 @@ if election_df.empty or geojson is None:
 st.sidebar.header("Filtres")
 
 # Sélecteur d'année
-available_years = sorted(election_df['YEAR'].unique(), reverse=True)
+available_years = [2027, 2024, 2023, 2017]
 selected_year = st.sidebar.selectbox("Choisissez une année", available_years)
 
 # Filtrer les données en fonction de l'année sélectionnée
