@@ -188,7 +188,8 @@ with col2:
     st.plotly_chart(fig_bar, use_container_width=True)
 
 # --- Section Évolution des Indicateurs ---
-st.subheader("📈 Évolution des indicateurs socio-économiques (Moyenne Nationale)")
+st.header("📈 Évolution des indicateurs socio-économiques (2017-2024)")
+st.write("Les graphiques suivants montrent la moyenne nationale (non pondérée) pour chaque indicateur, calculée sur l'ensemble des départements.")
 
 # Préparer les données - exclure 2027 car les indicateurs sont un proxy de 2024
 evolution_df = election_df[election_df['YEAR'] < 2027].copy()
@@ -203,35 +204,20 @@ features_to_plot = {
 # Calculer la moyenne nationale pour chaque année
 evolution_avg = evolution_df.groupby('YEAR')[list(features_to_plot.keys())].mean().reset_index()
 
-# Mettre les données en format long pour Plotly
-evolution_melted = evolution_avg.melt(
-    id_vars=['YEAR'],
-    value_vars=list(features_to_plot.keys()),
-    var_name='Indicateur',
-    value_name='Valeur'
-)
-evolution_melted['Indicateur'] = evolution_melted['Indicateur'].map(features_to_plot)
+# Boucler sur chaque indicateur pour créer un graphique distinct
+for feature_col, feature_label in features_to_plot.items():
+    fig = px.line(
+        evolution_avg,
+        x='YEAR',
+        y=feature_col,
+        title=feature_label,
+        labels={'YEAR': 'Année', feature_col: 'Valeur'},
+        markers=True
+    )
+    fig.update_layout(title_x=0.5)
+    st.plotly_chart(fig, use_container_width=True)
 
-# Créer le graphique en lignes avec facettes
-fig_evolution = px.line(
-    evolution_melted,
-    x='YEAR',
-    y='Valeur',
-    facet_row='Indicateur',
-    height=800,
-    labels={'YEAR': 'Année'},
-    markers=True,
-    title="Évolution des indicateurs clés en France (Moyenne nationale 2017-2024)"
-)
-
-# Mettre à jour les axes Y pour qu'ils soient indépendants et nettoyer les titres
-fig_evolution.update_yaxes(matches=None, title_text="")
-fig_evolution.update_layout(showlegend=False)
-fig_evolution.for_each_annotation(lambda a: a.update(text=a.text.split("=")[1]))
-
-st.plotly_chart(fig_evolution, use_container_width=True)
 st.info(
-    "Ce graphique montre la moyenne nationale (non pondérée) pour chaque indicateur, calculée sur l'ensemble des départements. "
     "Les données de 2027 ne sont pas affichées ici car les indicateurs socio-économiques pour cette année prédictive sont basés sur les chiffres de 2024."
 )
 
