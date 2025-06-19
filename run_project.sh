@@ -25,17 +25,17 @@ echo "---"
 # The `--output` flag specifies the name of the executed notebook.
 
 echo "STEP 1: Running Data Preprocessing Notebook..."
-jupyter nbconvert --to notebook --execute notebooks/data_preprocessing.ipynb --output notebooks/data_preprocessing.executed.ipynb --allow-errors
+jupyter nbconvert --to notebook --execute notebooks/data_preprocessing.ipynb --output data_preprocessing.executed.ipynb --allow-errors
 echo "✅ Data preprocessing finished."
 echo "---"
 
 echo "STEP 2: Running Model Training Notebook..."
-jupyter nbconvert --to notebook --execute notebooks/model_training.ipynb --output notebooks/model_training.executed.ipynb --allow-errors
+jupyter nbconvert --to notebook --execute notebooks/model_training.ipynb --output model_training.executed.ipynb --allow-errors
 echo "✅ Model training finished."
 echo "---"
 
 echo "STEP 3: Running Prediction Notebook..."
-jupyter nbconvert --to notebook --execute notebooks/prediction.ipynb --output notebooks/prediction.executed.ipynb --allow-errors
+jupyter nbconvert --to notebook --execute notebooks/prediction.ipynb --output prediction.executed.ipynb --allow-errors
 echo "✅ Prediction finished."
 echo "---"
 
