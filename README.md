@@ -1,7 +1,11 @@
 # 🗳️ Electoral Results Predictor & Interactive Dashboard
 
+**Master EISI Project - EPSI Grenoble 2024-2025**
+
 ## ✨ Overview
 This project aims to predict the results of French elections by department using machine learning techniques. The goal is not only to predict but to build a **robust and reproducible data pipeline** that feeds an **interactive dashboard** for visualizing historical results and future predictions.
+
+**Key Results:** Random Forest model achieving 48.94% accuracy with predictions for 94 French departments in 2027.
 
 ## 🚀 Our Workflow Pipeline
 The project is structured around three sequential Jupyter notebooks that form a complete and automated pipeline, from raw data to the final result.
@@ -17,15 +21,16 @@ The project is structured around three sequential Jupyter notebooks that form a 
 2.  `notebooks/model_training.ipynb`
     *   **Role:** Trains and selects the best model.
     *   **Actions:**
-        *   Tests several algorithms (e.g., Random Forest).
+        *   Tests several algorithms (Random Forest, Decision Tree, Logistic Regression, SVM).
         *   Evaluates them on the 2024 test set.
+        *   **Best model: Random Forest with 48.94% accuracy.**
         *   **Automatically saves the best-performing model.**
 
 3.  `notebooks/prediction.ipynb`
     *   **Role:** Generates final predictions and prepares data for BI.
     *   **Actions:**
         *   Loads the best model.
-        *   Predicts the winners for "2027".
+        *   **Generates 94 predictions for all French departments in 2027.**
         *   Creates a final table, `election_results_for_bi`, in the database, combining all historical and future results for easy analysis.
 
 ## 📊 Visualization with the Dashboard
@@ -62,9 +67,10 @@ Once the data pipeline has been executed, a Streamlit dashboard is available to 
 
 ## 📊 Data Used
 Our dataset includes:
-- Historical electoral results (turnout, registered voters, votes per party).
-- Socio-economic indicators (unemployment, poverty).
-- Social data (crime, immigration).
+- **Historical electoral results** (2017-2024): turnout, registered voters, votes per party
+- **Socio-economic indicators**: unemployment rate, poverty rate  
+- **Social data**: crime statistics (victims count), immigration rate
+- **Total**: 752 samples across 94 French departments
 
 ## 🐳 Installation and Launch
 
