@@ -569,7 +569,7 @@ def main():
 - **Tableaux détaillés** : Données par département
 - **Métriques clés** : Participation, margins
 
-![Interface Dashboard](../assets/images/dashboard_interface.png)
+![Interface Dashboard](../assets/images/dashboard_main_interface.png)
 
 ### 9.3 Experience Utilisateur
 
@@ -1057,7 +1057,7 @@ def create_france_map(data):
 ![Comparaison des Modèles](../assets/images/model_comparison_chart.png)
 *Figure D.2 : Graphique de comparaison des performances des modèles*
 
-![Détail Département](../assets/images/department_detail_view.png)
+![Détail Département](../assets/images/dashboard_detail_view.png)
 *Figure D.3 : Vue détaillée d'un département avec historique*
 
 ---
