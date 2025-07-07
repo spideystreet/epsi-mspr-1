@@ -25,23 +25,28 @@ echo "---"
 # The `--output` flag specifies the name of the executed notebook.
 
 echo "STEP 1: Running Data Preprocessing Notebook..."
-jupyter nbconvert --to notebook --execute notebooks/data_preprocessing.ipynb --output notebooks/data_preprocessing.executed.ipynb --allow-errors
+jupyter nbconvert --to notebook --execute notebooks/data_preprocessing.ipynb --output data_preprocessing.executed.ipynb --allow-errors
 echo "✅ Data preprocessing finished."
 echo "---"
 
 echo "STEP 2: Running Model Training Notebook..."
-jupyter nbconvert --to notebook --execute notebooks/model_training.ipynb --output notebooks/model_training.executed.ipynb --allow-errors
+jupyter nbconvert --to notebook --execute notebooks/model_training.ipynb --output model_training.executed.ipynb --allow-errors
 echo "✅ Model training finished."
 echo "---"
 
 echo "STEP 3: Running Prediction Notebook..."
-jupyter nbconvert --to notebook --execute notebooks/prediction.ipynb --output notebooks/prediction.executed.ipynb --allow-errors
+jupyter nbconvert --to notebook --execute notebooks/prediction.ipynb --output prediction.executed.ipynb --allow-errors
 echo "✅ Prediction finished."
 echo "---"
 
 echo "🎉🎉🎉 Project pipeline executed successfully! 🎉🎉🎉"
 echo "The database is populated, and the final view 'election_data_for_bi' is ready."
 echo "You can now connect to the database or run the Streamlit dashboard."
+
+echo "STEP 4: Running Streamlit Dashboard..."
+streamlit run streamlit/dashboard.py
+echo "✅ Streamlit dashboard launched."
+echo "---"
 
 # Keep the container running if needed, e.g., for inspection.
 # In this case, we just want to run the script and then the container can exit.
