@@ -100,3 +100,6 @@ wcwidth==0.2.13
 webencodings==0.5.1
 wrapt==1.17.2
 xgboost==3.0.1
+markdown==3.5.2
+pdfkit==1.0.0
+pathlib2==2.3.7
