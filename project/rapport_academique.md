@@ -48,8 +48,9 @@ Notre approche repose sur trois piliers fondamentaux :
 
 ### 1.3 Résultats Principaux
 - Développement d'un pipeline complet de traitement des données électorales
-- Création d'un modèle prédictif avec une précision de [X]% sur les données de test 2024
+- Création d'un modèle prédictif Random Forest avec une précision de **48,94%** sur les données de test 2024
 - Déploiement d'une interface web interactive permettant la visualisation des prédictions pour 2027
+- Génération de **94 prédictions départementales** pour l'année 2027
 
 ```mermaid
 graph TD
@@ -209,8 +210,8 @@ graph TD
 
 ### 4.2 Division Temporelle
 Approche de validation temporelle rigoureuse :
-- **Données d'entraînement** : 2017-2023
-- **Données de test** : 2024
+- **Données d'entraînement** : 2017-2023 (652 échantillons)
+- **Données de test** : 2024 (94 échantillons)
 - **Prédictions** : 2027 (projection future)
 
 ### 4.3 Critères d'Évaluation
@@ -396,18 +397,18 @@ LEFT JOIN crime_data cd ON ...
 Stratégie d'imputation progressive :
 - **Forward Fill** par département pour continuité temporelle
 - **Suppression** des lignes sans variable cible
-- **Validation** de l'intégrité finale
+- **Validation** de l'intégrité finale (0 valeurs nulles détectées)
 
-### 6.4 Statistiques Descriptives
+### 6.4 Résultats du Prétraitement
 
-| Variable | Min | Max | Moyenne | Médiane | Écart-type |
-|----------|-----|-----|---------|---------|------------|
-| Taux de chômage | [X]% | [Y]% | [Z]% | [W]% | [V]% |
-| Taux d'immigration | [X]% | [Y]% | [Z]% | [W]% | [V]% |
-| Nombre de victimes | [X] | [Y] | [Z] | [W] | [V] |
-| Taux de pauvreté | [X]% | [Y]% | [Z]% | [W]% | [V]% |
-
-*Note : Les distributions des variables seront analysées lors de l'extension future du projet*
+| Statistique | Valeur |
+|-------------|--------|
+| **Échantillons totaux** | 752 lignes |
+| **Échantillons d'entraînement** | 652 lignes (2017-2023) |
+| **Échantillons de test** | 94 lignes (2024) |
+| **Features numériques** | 4 (taux chômage, immigration, pauvreté, victimes) |
+| **Features catégorielles** | 1 (code département) |
+| **Valeurs manquantes** | 0 (après imputation) |
 
 ---
 
@@ -430,121 +431,101 @@ y_encoded = label_encoder.fit_transform(y_train)
 
 #### 7.1.2 Variables Explicatives
 - **Variables numériques** : Taux de chômage, immigration, pauvreté, nombre de victimes
-- **Variables catégorielles** : Code département, année
-- **Variable cible** : Parti gagnant (multi-classes)
+- **Variables catégorielles** : Code département (OneHot encodé en 95 features)
+- **Variable cible** : Parti gagnant (5 classes : DROITE, PS, RN, LFI, GAUCHE)
 
-### 7.2 Algorithmes Testés
+### 7.2 Algorithmes Testés et Performances
 
-#### 7.2.1 Random Forest (Modèle Principal)
+#### 7.2.1 Comparaison des Modèles
+Quatre algorithmes ont été entraînés et évalués :
+
+| Modèle | Accuracy | Weighted Precision | Rang |
+|--------|----------|-------------------|------|
+| **Random Forest** | **48.94%** | **66.34%** | 🥇 |
+| Decision Tree | 44.68% | 60.25% | 🥈 |
+| Logistic Regression | 29.79% | 62.13% | 🥉 |
+| SVM | 23.40% | 62.98% | 4 |
+
+#### 7.2.2 Modèle Sélectionné : Random Forest
 ```python
 rf_model = RandomForestClassifier(
     n_estimators=100,
-    max_depth=10,
     random_state=42
 )
 ```
 
-**Avantages** :
-- Robustesse aux outliers
-- Gestion native des variables mixtes
-- Interprétabilité via importance des features
-
-#### 7.2.2 Algorithmes Alternatifs
-- **Gradient Boosting** : Pour comparaison de performance
-- **Logistic Regression** : Baseline simple
-- **SVM** : Approche non-linéaire
+**Avantages du Random Forest** :
+- **Meilleure performance** : 48.94% d'accuracy
+- **Robustesse aux outliers**
+- **Gestion native des variables mixtes**
+- **Interprétabilité** via importance des features
 
 ### 7.3 Entraînement et Validation
 
 #### 7.3.1 Protocole d'Évaluation
 - **Validation temporelle** : Train sur 2017-2023, test sur 2024
-- **Cross-validation** : 5-folds sur données d'entraînement
-- **Métriques** : Accuracy, F1-score macro, matrice de confusion
+- **Métriques** : Accuracy, Weighted Precision
+- **Persistance** : Sauvegarde du meilleur modèle en `random_forest_predictor.joblib`
 
-#### 7.3.2 Sélection du Modèle
-```python
-models = {
-    'RandomForest': rf_model,
-    'GradientBoosting': gb_model,
-    'LogisticRegression': lr_model
-}
+#### 7.3.2 Architecture des Features
+Après preprocessing, le modèle utilise **99 features** :
+- 4 features numériques standardisées
+- 95 features catégorielles (OneHot encoding des départements)
 
-best_model = select_best_model(models, X_train, y_train, X_test, y_test)
-```
-
-*Note : La comparaison des modèles sera implémentée dans la phase d'entraînement*
-
-### 7.4 Importance des Features
-
-Analyse de l'importance des variables dans le modèle Random Forest :
-
-| Feature | Importance | Interprétation |
-|---------|------------|----------------|
-| Taux de chômage | [X]% | Impact sur vote protestataire |
-| Code département | [Y]% | Spécificités régionales |
-| Année | [Z]% | Tendances temporelles |
-| Criminalité | [W]% | Préoccupations sécuritaires |
-
-*Note : L'analyse d'importance des features sera disponible après l'entraînement du modèle*
+![Comparaison des Modèles](../assets/images/model_comparison_chart.png)
 
 ---
 
 ## 8. Résultats et Évaluation
 
-### 8.1 Performance du Modèle
+### 8.1 Performance du Modèle Random Forest
 
 #### 8.1.1 Métriques Globales
-- **Précision globale** : [X]% sur le jeu de test 2024
-- **F1-Score macro** : [Y]
-- **Recall moyen** : [Z]%
+- **Précision globale** : **48.94%** sur le jeu de test 2024
+- **Weighted Precision** : **66.34%**
+- **Nombre de prédictions correctes** : 46/94 départements
 
-#### 8.1.2 Matrice de Confusion
+#### 8.1.2 Analyse de Performance
+Le modèle Random Forest montre des performances modérées mais cohérentes :
+- **Supériorité claire** par rapport aux autres algorithmes testés
+- **Robustesse** face à la complexité des données électorales
+- **Capacité de généralisation** sur données temporelles futures
+
+### 8.2 Prédictions 2027
+
+#### 8.2.1 Génération des Prédictions
+- **Base de données** : Utilisation des données 2024 comme référence
+- **Prédictions générées** : 94 départements français
+- **Consolidation** : 375 lignes totales (historique + prédictions)
+
+#### 8.2.2 Pipeline de Prédiction
+```python
+# Preprocessing des données 2024 pour prédiction 2027
+X_processed = preprocessor_X.transform(features_to_predict)
+predictions_encoded = model.predict(X_processed)
+predictions_decoded = label_encoder_y.inverse_transform(predictions_encoded)
 ```
-Prédiction vs Réalité (2024):
-                Prédit
-Réel     | RN  | LR  | PS  | LFI | Autres |
----------|-----|-----|-----|-----|--------|
-RN       | XX  |  X  |  X  |  X  |   X    |
-LR       |  X  | XX  |  X  |  X  |   X    |
-PS       |  X  |  X  | XX  |  X  |   X    |
-LFI      |  X  |  X  |  X  | XX  |   X    |
-Autres   |  X  |  X  |  X  |  X  |  XX    |
-```
 
-*Note : La matrice de confusion sera générée lors de l'évaluation du modèle*
+#### 8.2.3 Intégration Business Intelligence
+- **Vue consolidée** : `election_data_for_bi` créée dans PostgreSQL
+- **Données historiques** : 281 lignes (2017-2024)
+- **Prédictions futures** : 94 lignes (2027)
+- **Période totale** : 2017-2027 (11 années)
 
-### 8.2 Analyse par Parti Politique
+![Prédictions 2027 Map](../assets/images/predictions_2027_map.png)
 
-#### 8.2.1 Performance Détaillée
-| Parti | Précision | Recall | F1-Score | Support |
-|-------|-----------|--------|----------|---------|
-| RN | [X]% | [Y]% | [Z] | [N] |
-| LR | [X]% | [Y]% | [Z] | [N] |
-| PS | [X]% | [Y]% | [Z] | [N] |
-| LFI | [X]% | [Y]% | [Z] | [N] |
-| Autres | [X]% | [Y]% | [Z] | [N] |
+### 8.3 Analyse des Limites
 
-#### 8.2.2 Erreurs d'Analyse
-- **Faux positifs** : Départements incorrectement prédits comme RN
-- **Faux négatifs** : Victoires RN non détectées
-- **Zones d'incertitude** : Départements avec probabilités équilibrées
+#### 8.3.1 Performance Modérée
+L'accuracy de 48.94% s'explique par :
+- **Complexité intrinsèque** des phénomènes électoraux
+- **Variables manquantes** (réseaux sociaux, événements conjoncturels)
+- **Simplification** des dynamiques politiques locales
 
-### 8.3 Prédictions 2027
-
-#### 8.3.1 Projection Nationale
-Répartition prédite des départements gagnants en 2027 :
-- **RN** : [X] départements ([Y]%)
-- **LR** : [X] départements ([Y]%)
-- **PS** : [X] départements ([Y]%)
-- **LFI** : [X] départements ([Y]%)
-- **Autres** : [X] départements ([Y]%)
-
-![Carte Prédictions 2027](assets/images/predictions_2027_map.png)
-
-#### 8.3.2 Incertitudes et Intervalles de Confiance
-- **Départements "sûrs"** : Probabilité > 80%
-- **Départements "incertains"** : Probabilité 50-80%
-- **Départements "très incertains"** : Probabilité < 50%
+#### 8.3.2 Points d'Amélioration Identifiés
+- **Enrichissement des données** : Intégration de nouvelles sources
+- **Feature engineering** : Création de variables composites
+- **Ensemble methods** : Combinaison de plusieurs modèles
 
 ---
 
@@ -588,7 +569,7 @@ def main():
 - **Tableaux détaillés** : Données par département
 - **Métriques clés** : Participation, margins
 
-![Interface Dashboard](assets/images/dashboard_interface.png)
+![Interface Dashboard](../assets/images/dashboard_interface.png)
 
 ### 9.3 Experience Utilisateur
 
@@ -676,7 +657,62 @@ PG_DBNAME=elections
 - **Backup** : PostgreSQL dump automatique
 - **Updates** : Pipeline CI/CD potentiel
 
-![Architecture Déploiement](assets/images/deployment_architecture.png)
+```mermaid
+graph TB
+    subgraph "🏠 Local Development Environment"
+        subgraph "📱 User Interface"
+            BROWSER["🌐 Web Browser<br/>http://localhost:8501"]
+            USER["👤 Data Scientist / Analyst"]
+        end
+        
+        subgraph "🐳 Docker Compose Services"
+            direction TB
+            DB_CONTAINER["🗄️ PostgreSQL Container<br/>postgres:13<br/>Port: 5432<br/>Volume: db_data"]
+            APP_CONTAINER["🐍 Python App Container<br/>Python 3.11 + Jupyter<br/>Notebooks Execution"]
+        end
+        
+        subgraph "📁 Local File System"
+            DATA_FILES["📄 CSV Data Files<br/>/data/"]
+            MODELS["🤖 ML Models<br/>/models/"]
+            ARTIFACTS["💾 Preprocessors<br/>/database/"]
+            NOTEBOOKS["📓 Jupyter Notebooks<br/>/notebooks/"]
+        end
+        
+        subgraph "🚀 Streamlit Application"
+            STREAMLIT["🌟 Streamlit Dashboard<br/>Port: 8501<br/>Interactive UI"]
+        end
+    end
+    
+    subgraph "☁️ Production Options"
+        CLOUD_OPTIONS["🌐 Cloud Deployment<br/>• Streamlit Cloud<br/>• Heroku<br/>• Railway<br/>• AWS ECS"]
+    end
+    
+    %% User interactions
+    USER --> BROWSER
+    BROWSER --> STREAMLIT
+    
+    %% Docker internal communications
+    APP_CONTAINER <--> DB_CONTAINER
+    APP_CONTAINER --> DATA_FILES
+    APP_CONTAINER --> MODELS
+    APP_CONTAINER --> ARTIFACTS
+    APP_CONTAINER --> NOTEBOOKS
+    
+    %% Streamlit connections
+    STREAMLIT --> DB_CONTAINER
+    STREAMLIT --> MODELS
+    STREAMLIT --> DATA_FILES
+    
+    %% Deployment path
+    STREAMLIT -.-> CLOUD_OPTIONS
+    
+    style DB_CONTAINER fill:#e3f2fd
+    style APP_CONTAINER fill:#f3e5f5
+    style STREAMLIT fill:#e8f5e8
+    style BROWSER fill:#fff3e0
+    style USER fill:#f0f4c3
+    style CLOUD_OPTIONS fill:#fce4ec
+```
 
 ---
 
@@ -702,6 +738,7 @@ PG_DBNAME=elections
 - **Biais géographique** : Surreprésentation de certaines régions
 
 #### 11.2.2 Modélisation
+- **Performance modérée** : 48.94% d'accuracy
 - **Complexité électorale** : Réduction à des variables quantitatives
 - **Événements exceptionnels** : Difficile à prédire (crises, scandales)
 - **Dynamiques locales** : Variables non capturées
@@ -732,9 +769,10 @@ Ce projet a permis de développer avec succès un système complet de prédictio
 
 #### 12.1.1 Objectifs Atteints
 - ✅ **Pipeline automatisé** : Traitement de bout en bout des données
-- ✅ **Modèle prédictif** : Précision de [X]% sur données 2024
+- ✅ **Modèle prédictif** : Précision de 48.94% sur données 2024
 - ✅ **Interface utilisateur** : Dashboard interactif fonctionnel
 - ✅ **Infrastructure** : Déploiement containerisé reproductible
+- ✅ **Prédictions 2027** : 94 prédictions départementales générées
 
 #### 12.1.2 Compétences Développées
 - **Data Engineering** : ETL, bases de données, APIs
@@ -745,8 +783,8 @@ Ce projet a permis de développer avec succès un système complet de prédictio
 ### 12.2 Perspectives d'Amélioration
 
 #### 12.2.1 Court Terme
+- **Optimisation modèle** : Hyperparameter tuning pour améliorer les 48.94%
 - **Enrichissement des données** : Réseaux sociaux, sondages
-- **Optimisation modèle** : Hyperparameter tuning, feature selection
 - **Interface utilisateur** : UX améliorée, nouvelles visualisations
 
 #### 12.2.2 Moyen Terme
@@ -993,30 +1031,33 @@ def create_france_map(data):
 
 ### Annexe C : Métriques Détaillées
 
-#### C.1 Résultats par Département (échantillon)
-| Département | Réel 2024 | Prédit 2024 | Probabilité | Statut |
-|-------------|-----------|-------------|-------------|---------|
-| 01 - Ain | RN | RN | 0.87 | ✅ Correct |
-| 02 - Aisne | RN | LR | 0.62 | ❌ Erreur |
-| 03 - Allier | PS | PS | 0.71 | ✅ Correct |
-| ... | ... | ... | ... | ... |
+#### C.1 Résultats de Performance des Modèles
+| Modèle | Accuracy | Weighted Precision | Observations |
+|--------|----------|-------------------|--------------|
+| Random Forest | 48.94% | 66.34% | ✅ Meilleure performance globale |
+| Decision Tree | 44.68% | 60.25% | 🔶 Performance correcte |
+| Logistic Regression | 29.79% | 62.13% | ⚠️ Sous-performance |
+| SVM | 23.40% | 62.98% | ❌ Performance faible |
 
-#### C.2 Evolution Temporelle (2017-2024)
-| Année | Nb Dép. RN | Nb Dép. LR | Nb Dép. PS | Nb Dép. LFI | Autres |
-|-------|------------|------------|------------|-------------|---------|
-| 2017 | [X] | [Y] | [Z] | [W] | [V] |
-| 2022 | [X] | [Y] | [Z] | [W] | [V] |
-| 2024 | [X] | [Y] | [Z] | [W] | [V] |
+#### C.2 Statistiques du Dataset
+| Métrique | Valeur |
+|----------|--------|
+| **Total échantillons** | 752 |
+| **Train set** | 652 échantillons |
+| **Test set** | 94 échantillons |
+| **Prédictions 2027** | 94 départements |
+| **Consolidation BI** | 375 lignes totales |
+| **Période couverte** | 2017-2027 (11 ans) |
 
 ### Annexe D : Captures d'Écran
 
-![Interface Principale](assets/images/dashboard_main_interface.png)
+![Interface Principale](../assets/images/dashboard_main_interface.png)
 *Figure D.1 : Interface principale du dashboard avec carte interactive*
 
-![Filtres et Statistiques](assets/images/dashboard_filters_stats.png)
-*Figure D.2 : Panneau de filtres et statistiques agrégées*
+![Comparaison des Modèles](../assets/images/model_comparison_chart.png)
+*Figure D.2 : Graphique de comparaison des performances des modèles*
 
-![Détail Département](assets/images/department_detail_view.png)
+![Détail Département](../assets/images/department_detail_view.png)
 *Figure D.3 : Vue détaillée d'un département avec historique*
 
 ---
